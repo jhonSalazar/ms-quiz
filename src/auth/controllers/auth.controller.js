@@ -22,8 +22,14 @@ const login = async (req, res, next) => {
                 });
             });
         } else {
-            logger.warn(message.getLogMessageGetOneNotSuccess(id));
-            res.status(404).json({message: message.getMessageGetOneNotSuccess()});
+            logger.warn('login unsuccessfully body', req.body);
+            res.status(404).json(
+                new ResponseDTO(
+                    null,
+                    'login unsuccessfully body',
+                    Const.STATUS_ERROR
+                )
+            );
         }
         logger.info(`END - Login Id: ${JSON.stringify(req.body.email)}`);
     } catch (err) {

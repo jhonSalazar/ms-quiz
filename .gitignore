@@ -107,3 +107,5 @@ vcs.xml
 *.iml
 index.pb
 .idea/*
+
+.DS_Store

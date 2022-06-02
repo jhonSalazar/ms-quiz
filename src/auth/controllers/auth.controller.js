@@ -8,7 +8,7 @@ const UserDTO = require('../../common/userDTO')
 
 const login = async (req, res, next) => {
     try {
-        logger.info(`BEGIN - login body: ${JSON.stringify(req.body.email)}`);
+        logger.info(`BEGIN - login body: ${JSON.stringify(req.body)}`);
         const {email, password} = req.body;
         const result = await userService.findByPasswordAndEmail(email, password)
         if (result) {

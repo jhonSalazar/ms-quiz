@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const addNewUser = (newUser) => userModel.create(newUser);
 
-const findByPasswordAndEmail =  async (email, password) => {
+const findByPasswordAndEmail = async (email, password) => {
 
     let user = await userModel.findOne({email: email}).exec();
     let value;
@@ -13,7 +13,12 @@ const findByPasswordAndEmail =  async (email, password) => {
     if (value) return user;
     return null;
 }
+
+const findByEmail = (email) => {
+    return userModel.findOne({email: email});
+}
 module.exports = {
     addNewUser,
-    findByPasswordAndEmail
+    findByPasswordAndEmail,
+    findByEmail
 }

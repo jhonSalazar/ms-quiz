@@ -5,11 +5,11 @@ const bodyParser = require('body-parser');
 const {connectionDB} = require('./src/database/mongo')
 const questionsRouter = require("./src/questions/router/questions.router")
 const authRouter = require("./src/auth/router/auth.router")
-
+const middleware = require("./src/middleware/authentication")
 const path = require("path");
 
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
@@ -27,18 +27,16 @@ app.use(
 );
 
 
-
 const environment = (process.env.NODE_ENV || 'development').toLowerCase();
-if(environment !== 'production'){
-        require('dotenv').config()
+if (environment !== 'production') {
+    require('dotenv').config()
 }
-
 
 
 app.options('*', cors());
 
 connectionDB();
 
-app.use("/api/v1/questionnaire", questionsRouter);
+app.use("/api/v1/questionnaire", middleware.authenticateJwt, questionsRouter);
 app.use("/api/v1/auth", authRouter);
 module.exports = app;

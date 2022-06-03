@@ -8,7 +8,12 @@ const addNewUser = async (user) => {
     return userDao.addNewUser(user);
 }
 
+const findByEmail = async (email) => {
+    return userDao.findByEmail(email)
+}
+
 module.exports = {
     findByPasswordAndEmail,
-    addNewUser
+    addNewUser,
+    findByEmail
 }

@@ -8,11 +8,11 @@ const UserDTO = require('../../common/userDTO')
 
 const login = async (req, res, next) => {
     try {
-        logger.info(`BEGIN - login body: ${JSON.stringify(req.body)}`);
+        logger.info(`BEGIN - login body: ${JSON.stringify(req.body.email)}`);
         const {email, password} = req.body;
         const result = await userService.findByPasswordAndEmail(email, password)
         if (result) {
-            logger.info('USER login succeed -->  user: ', result)
+            logger.info(`Login successfully - login body: ${JSON.stringify(req.body.email)}`);
             let client = new UserDTO(result);
             jwt.sign({data: client}, 'secretKeyJwt', {expiresIn: 60 * 60}, (error, token) => {
                 return res.status(200).json(
@@ -27,7 +27,7 @@ const login = async (req, res, next) => {
                     )
             )});
         } else {
-            logger.warn('login unsuccessfully body', req.body);
+            logger.warn('login unsuccessfully body' + req.body.email);
             res.status(404).json(
                 new ResponseDTO(
                     null,
@@ -42,7 +42,7 @@ const login = async (req, res, next) => {
         res.status(500).json(
             new ResponseDTO(
                 null,
-                'login unsuccessfully',
+                'An error has  occurred - login unsuccessfully',
                 Const.STATUS_ERROR));
     }
 }

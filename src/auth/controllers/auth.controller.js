@@ -15,12 +15,17 @@ const login = async (req, res, next) => {
             logger.info('USER login succeed -->  user: ', result)
             let client = new UserDTO(result);
             jwt.sign({data: client}, 'secretKeyJwt', {expiresIn: 60 * 60}, (error, token) => {
-                return res.status(200).json({
-                    user: client,
-                    token: token,
-                    expireIn: 3600
-                });
-            });
+                return res.status(200).json(
+                    new ResponseDTO(
+                        {
+                            user: client,
+                            token: token,
+                            expireIn: 3600
+                        },
+                        "login successfully",
+                        Const.STATUS_OK
+                    )
+            )});
         } else {
             logger.warn('login unsuccessfully body', req.body);
             res.status(404).json(
